@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::post('/games', 'GameController@store');
+Route::get('/games/create', 'GameController@create')->name('game.create');
+Route::post('/games/logpin', 'GameController@logpin')->name('game.logpin');
+
+Route::get('/user/create', 'Auth\RegisterController@create')->name('user.create');
+Route::post('/user', 'Auth\RegisterController@store')->name('user.store');
+
+Route::get('/testpage', function () {
+    return 'testit';
+})->middleware('auth');
