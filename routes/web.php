@@ -17,13 +17,20 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::post('/games', 'GameController@store');
-Route::get('/games/create', 'GameController@create')->name('game.create');
-Route::post('/games/logpin', 'GameController@logpin')->name('game.logpin');
 
-Route::get('/user/create', 'Auth\RegisterController@create')->name('user.create');
-Route::post('/user', 'Auth\RegisterController@store')->name('user.store');
+Route::group(['middleware' => ['nopin']], function () {
+    Route::post('/games', 'GameController@store');
+    Route::get('/games/create', 'GameController@create')->name('game.create');
+    Route::post('/games/logpin', 'GameController@logpin')->name('game.logpin');
+});
 
-Route::get('/testpage', function () {
-    return 'testit';
-})->middleware('auth');
+Route::group(['middleware' => ['haspin']], function () {
+    Route::get('/user/create', 'Auth\RegisterController@create')->name('user.create');
+    Route::post('/user', 'Auth\RegisterController@store')->name('user.store');
+
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/user', 'Auth\RegisterController@index')->name('user.index');
+
+        // route to main game
+    });
+});

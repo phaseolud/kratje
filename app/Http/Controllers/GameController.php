@@ -19,11 +19,9 @@ class GameController extends Controller
             $pin = rand(11111, 99999);
         } while (Game::where('pin', $pin)->exists());
 
-        Game::create([
-            'pin' => $pin
-        ]);
-
-        return redirect('/');
+        Game::create(compact('pin'));
+        session(compact('pin'));
+        return redirect(route('user.create'));
     }
 
     public function logpin()
@@ -35,6 +33,6 @@ class GameController extends Controller
         session(['pin' => request('pin')]);
 
         // TODO: redirect to a user create page
-        return back();
+        return redirect(route('user.create'));
     }
 }

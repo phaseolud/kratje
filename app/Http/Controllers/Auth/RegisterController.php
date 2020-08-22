@@ -40,13 +40,14 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest')->except('index');
     }
+
 
     public function store()
     {
         request()->validate([
-            'username' => 'required|alpha|max:20',
+            'username' => 'required|alpha|max:10',
             'role' => 'required|in:coach,player',
         ]);
 
@@ -57,11 +58,16 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($user);
-        return view('home');
+        return redirect(route('home'));
     }
 
     public function create()
     {
         return view('user.create');
+    }
+
+    public function index()
+    {
+        return view('user.index');
     }
 }
