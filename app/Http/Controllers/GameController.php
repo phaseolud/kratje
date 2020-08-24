@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Game;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -30,9 +31,25 @@ class GameController extends Controller
             'pin' => 'numeric|exists:games'
         ]);
 
-        session(['pin' => request('pin')]);
+        session(compact('pin'));
 
         // TODO: redirect to a user create page
         return redirect(route('user.create'));
+    }
+
+    public function update()
+    {
+        if(request('start')) {
+            $game = Game::where(session('pin'),'pin')->first();
+            $game->started = Carbon::now();
+            $game->save();
+        }
+
+        return redirect()->route('home');
+    }
+
+    public function show()
+    {
+        return view('game.show');
     }
 }

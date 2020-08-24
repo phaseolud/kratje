@@ -65,5 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'haspin' => \App\Http\Middleware\CheckPin::class,
         'nopin' => \App\Http\Middleware\NoPin::class,
+        'gamenotstarted' => \App\Http\Middleware\GameNotStarted::class,
+        'gamestarted' => \App\Http\Middleware\GameStarted::class,
     ];
 }

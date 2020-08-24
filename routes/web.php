@@ -30,7 +30,10 @@ Route::group(['middleware' => ['haspin']], function () {
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/user', 'Auth\RegisterController@index')->name('user.index');
-
+        Route::put('/games/start', 'GameController@update')->name('game.start')->middleware('gamenotstarted');
         // route to main game
+        Route::group(['middleware' => ['gamestarted']], function () {
+            Route::get('/games', 'GameController@show')->name('game.show');
+        });
     });
 });

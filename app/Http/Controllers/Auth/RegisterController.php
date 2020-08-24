@@ -68,6 +68,7 @@ class RegisterController extends Controller
 
     public function index()
     {
-        return view('user.index');
+        $users = Game::where('pin', session(('pin')))->first()->users;
+        return view('user.index', compact('users'));
     }
 }

@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // TODO: if game is ready, go to game instead of homepage
+
         return view('home');
     }
 }
